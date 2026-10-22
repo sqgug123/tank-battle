@@ -88,10 +88,14 @@ tank-battle/
 │   ├── renderer.py      # 战场、坦克、HUD、菜单与遮罩绘制
 │   └── app.py           # pygame 初始化、输入、固定步长主循环
 ├── tests/
-│   ├── test_collision.py
 │   ├── test_tiles.py
-│   ├── test_enemy_ai.py
-│   ├── test_game_flow.py
+│   ├── test_levels.py
+│   ├── test_movement.py
+│   ├── test_combat.py
+│   ├── test_ai.py
+│   ├── test_spawning.py
+│   ├── test_powerups.py
+│   ├── test_flow.py
 │   └── test_smoke.py
 ├── requirements.txt
 ├── README.md
@@ -112,7 +116,6 @@ tank-battle/
 - `TileMap`：`grid: list[list[TileType]]`，提供 `is_blocked_for_tank(x, y, w, h)`、`is_blocked_for_bullet(...)`、`destroy_brick(col, row)`。
 - `Game`：持有 `tilemap`、`player`、`enemies`、`bullets`、`powerups`、`explosions`、`state`、`score`、`level_index`、`enemies_remaining`。
 - `Game.update(dt)` 处理：输入意图、移动与分轴碰撞、射击冷却、子弹推进与命中、AI 决策、道具拾取与过期、刷怪、胜负判定、状态切换。
-- 渲染层事件：逻辑层产出 `events: list[GameEvent]`（如 `EXPLODE`、`POWERUP_PICKED`），渲染层消费后清空，便于做特效；不依赖 pygame 事件系统。
 
 ### 碰撞
 

@@ -82,3 +82,24 @@ def test_player_moves_and_fires_through_update() -> None:
     game.update(0.2, move=Direction.RIGHT, fire=True)
     assert game.player.x > start_x
     assert len(game.bullets) == 1
+
+
+def test_long_random_session_does_not_crash() -> None:
+    import random
+
+    game = Game(seed=99)
+    rng = random.Random(99)
+    directions = list(Direction)
+    for _ in range(3000):
+        move = rng.choice(directions) if rng.random() < 0.7 else None
+        game.update(1 / 60, move=move, fire=rng.random() < 0.3)
+        assert game.state in (
+            GameState.PLAYING,
+            GameState.PAUSED,
+            GameState.LEVEL_CLEAR,
+            GameState.GAME_OVER,
+            GameState.VICTORY,
+        )
+        assert game.lives >= 0
+        assert 0 <= len(game.enemies) <= 8
+        assert len(game.bullets) <= 16
